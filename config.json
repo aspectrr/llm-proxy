@@ -1,0 +1,110 @@
+{
+  "$schema": "https://www.getbifrost.ai/schema",
+  "config_store": {
+    "enabled": true,
+    "type": "sqlite",
+    "config": {
+      "path": "/var/lib/tailscale/config.db"
+    }
+  },
+  "logs_store": {
+    "enabled": true,
+    "type": "sqlite",
+    "config": {
+      "path": "/var/lib/tailscale/logs.db"
+    }
+  },
+  "auth_config": {
+    "is_enabled": true,
+    "admin_username": "cpfeifer",
+    "admin_password": "env.ADMIN_PASSWORD"
+  },
+  "vector_store": {
+    "enabled": true,
+    "type": "qdrant",
+    "config": {
+      "host": "127.0.0.1",
+      "port": 6334,
+      "use_tls": false
+    }
+  },
+  "providers": {
+    "ollama": {
+      "keys": [
+        {
+          "name": "ollama",
+          "weight": 1,
+          "ollama_key_config": {
+            "url": "env.OLLAMA_URL"
+          }
+        }
+      ],
+      "network_config": {
+        "default_request_timeout_in_seconds": 120,
+        "stream_idle_timeout_in_seconds": 60,
+        "max_retries": 3,
+        "retry_backoff_initial": 500,
+        "retry_backoff_max": 5000,
+        "max_conns_per_host": 5000
+      }
+    },
+    "openrouter": {
+      "keys": [
+        {
+          "name": "openrouter",
+          "value": "env.OPENROUTER_API_KEY",
+          "weight": 1
+        }
+      ],
+      "network_config": {
+        "default_request_timeout_in_seconds": 120,
+        "stream_idle_timeout_in_seconds": 60,
+        "max_retries": 3,
+        "retry_backoff_initial": 500,
+        "retry_backoff_max": 5000,
+        "max_conns_per_host": 5000
+      }
+    },
+    "zai": {
+      "keys": [
+        {
+          "name": "zai coding plan",
+          "value": "env.GLM_API_KEY",
+          "weight": 1
+        }
+      ],
+      "network_config": {
+        "base_url": "https://api.z.ai/api/coding/paas/v4",
+        "default_request_timeout_in_seconds": 120,
+        "stream_idle_timeout_in_seconds": 60,
+        "max_retries": 3,
+        "retry_backoff_initial": 500,
+        "retry_backoff_max": 5000,
+        "max_conns_per_host": 5000
+      },
+      "custom_provider_config": {
+        "base_provider_type": "openai",
+        "request_path_overrides": {
+          "chat_completion": "/chat/completions",
+          "chat_completion_stream": "/chat/completions",
+          "text_completion_stream": "/completions",
+          "text_completion": "/completions",
+          "responses": "/responses",
+          "responses_stream": "/responses",
+          "list_models": "/models",
+          "count_tokens": "/responses/tokens"
+        },
+        "allowed_requests": {
+          "chat_completion": true,
+          "chat_completion_stream": true,
+          "text_completion_stream": true,
+          "text_completion": true,
+          "responses": true,
+          "responses_stream": true,
+          "list_models": true,
+          "count_tokens": true
+        }
+      }
+    }
+  }
+}
