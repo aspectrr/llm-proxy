@@ -215,12 +215,14 @@ def main() -> None:
     # Warm up: wait for Bifrost
     while True:
         try:
-            requests.get(f"{BIFROST_URL}/api/health", timeout=5)
-            print("Bifrost is ready")
-            break
+            r = requests.get(f"{BIFROST_URL}/", timeout=5)
+            if r.status_code == 200:
+                print("Bifrost is ready")
+                break
         except requests.ConnectionError:
-            print("Waiting for Bifrost...")
-            time.sleep(5)
+            pass
+        print("Waiting for Bifrost...")
+        time.sleep(5)
 
     token = get_auth_token()
     print("Auth token ready")
