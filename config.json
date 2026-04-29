@@ -4,14 +4,14 @@
     "enabled": true,
     "type": "sqlite",
     "config": {
-      "path": "/var/lib/tailscale/config.db"
+      "path": "/var/lib/bifrost/config.db"
     }
   },
   "logs_store": {
     "enabled": true,
     "type": "sqlite",
     "config": {
-      "path": "/var/lib/tailscale/logs.db"
+      "path": "/var/lib/bifrost/logs.db"
     }
   },
   "auth_config": {

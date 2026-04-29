@@ -1,0 +1,53 @@
+services:
+  bifrost:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bifrost
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - bifrost-data:/var/lib/bifrost
+      - qdrant-data:/var/lib/qdrant
+    environment:
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - OLLAMA_URL=${OLLAMA_URL:-http://host.docker.internal:11434}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - GLM_API_KEY=${GLM_API_KEY:-}
+
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - bifrost
+
+  metrics-scraper:
+    build:
+      context: ./metrics-scraper
+      dockerfile: Dockerfile
+    container_name: metrics-scraper
+    restart: unless-stopped
+    environment:
+      - BIFROST_URL=http://bifrost:8080
+      - BIFROST_ADMIN_USER=cpfeifer
+      - BIFROST_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - SCRAPE_INTERVAL_SECONDS=${SCRAPE_INTERVAL_SECONDS:-60}
+    depends_on:
+      - bifrost
+
+volumes:
+  bifrost-data:
+  qdrant-data:
+  caddy-data:
+  caddy-config:

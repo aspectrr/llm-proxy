@@ -1,0 +1,7 @@
+{
+	local_certs
+}
+
+gateway.localhost {
+	reverse_proxy bifrost:8080
+}

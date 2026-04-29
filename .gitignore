@@ -1,1 +1,5 @@
 .crush
+.env
+*.pyc
+__pycache__
+metrics-scraper/.venv

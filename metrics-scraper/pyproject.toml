@@ -1,0 +1,9 @@
+[project]
+name = "metrics-scraper"
+version = "0.1.0"
+description = "Scrapes Bifrost logs and pushes metrics to Supabase"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.31",
+    "supabase>=2.0",
+]
