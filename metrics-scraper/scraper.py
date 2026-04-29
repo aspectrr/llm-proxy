@@ -66,19 +66,10 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # ---------------------------------------------------------------------------
 
 def get_auth_token() -> str:
-    """Authenticate with Bifrost and return a bearer token."""
-    r = requests.post(
-        f"{BIFROST_URL}/api/auth/login",
-        json={
-            "username": BIFROST_ADMIN_USER,
-            "password": BIFROST_ADMIN_PASSWORD,
-        },
-        timeout=15,
-    )
-    r.raise_for_status()
-    body = r.json()
-    # Bifrost may return the token under different keys depending on version
-    return body.get("token") or body.get("access_token") or body.get("data", {}).get("token")
+    """Build a Bearer token from base64(username:password)."""
+    import base64
+    creds = f"{BIFROST_ADMIN_USER}:{BIFROST_ADMIN_PASSWORD}"
+    return base64.b64encode(creds.encode()).decode()
 
 
 def fetch_logs(token: str, offset: int = 0, limit: int = 200) -> dict:
@@ -232,7 +223,7 @@ def main() -> None:
             time.sleep(5)
 
     token = get_auth_token()
-    print("Authenticated with Bifrost")
+    print("Auth token ready")
 
     while True:
         try:
@@ -240,7 +231,7 @@ def main() -> None:
         except requests.exceptions.HTTPError as e:
             # Token may have expired, re-auth
             if e.response is not None and e.response.status_code == 401:
-                print("Token expired, re-authenticating...")
+                print("Re-generating auth token...")
                 token = get_auth_token()
                 try:
                     scrape_once(token)
