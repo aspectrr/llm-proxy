@@ -1,13 +1,14 @@
 FROM maximhq/bifrost:latest AS bifrost
-FROM qdrant/qdrant:latest AS qdrant
+FROM redis/redis-stack-server:latest AS redis
 
 FROM debian:trixie-slim
 RUN apt-get update && apt-get install -y ca-certificates curl libunwind8 && rm -rf /var/lib/apt/lists/*
 
 COPY --from=bifrost /app/main /usr/local/bin/bifrost
-COPY --from=qdrant /qdrant/qdrant /usr/local/bin/qdrant
+COPY --from=redis /opt/redis-stack /opt/redis-stack
+COPY --from=redis /usr/bin/redis-cli /usr/local/bin/redis-cli
 
-RUN mkdir -p /var/lib/bifrost /var/lib/qdrant /root/.config/bifrost
+RUN mkdir -p /var/lib/bifrost /var/lib/redis /root/.config/bifrost
 
 COPY start.sh /start.sh
 COPY config.json /root/.config/bifrost/config.json

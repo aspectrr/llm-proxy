@@ -9,7 +9,7 @@ services:
       - "8080:8080"
     volumes:
       - bifrost-data:/var/lib/bifrost
-      - qdrant-data:/var/lib/qdrant
+      - redis-data:/var/lib/redis
     environment:
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - OLLAMA_URL=${OLLAMA_URL:-http://host.docker.internal:11434}
@@ -48,6 +48,6 @@ services:
 
 volumes:
   bifrost-data:
-  qdrant-data:
+  redis-data:
   caddy-data:
   caddy-config:

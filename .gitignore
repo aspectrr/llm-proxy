@@ -3,3 +3,6 @@
 *.pyc
 __pycache__
 metrics-scraper/.venv
+.gitignore
+.pi-lens
+.pi

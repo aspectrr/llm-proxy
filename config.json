@@ -21,11 +21,9 @@
   },
   "vector_store": {
     "enabled": true,
-    "type": "qdrant",
+    "type": "redis",
     "config": {
-      "host": "127.0.0.1",
-      "port": 6334,
-      "use_tls": false
+      "addr": "localhost:6379"
     }
   },
   "providers": {
@@ -106,5 +104,23 @@
         }
       }
     }
-  }
+  },
+  "plugins": [
+    {
+      "enabled": true,
+      "name": "semantic_cache",
+      "config": {
+        "provider": "ollama",
+        "embedding_model": "nomic-embed-text",
+        "dimension": 768,
+        "ttl": "5m",
+        "threshold": 0.8,
+        "cleanup_on_shutdown": true,
+        "conversation_history_threshold": 5,
+        "exclude_system_prompt": false,
+        "cache_by_model": true,
+        "cache_by_provider": true
+      }
+    }
+  ]
 }
