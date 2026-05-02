@@ -1,13 +1,12 @@
 # Bifrost LLM Gateway
 
-Local Bifrost LLM gateway with Caddy HTTPS and Supabase metrics.
+Local Bifrost LLM gateway with Supabase metrics.
 
 ## Services
 
 | Service | Description |
 |---|---|
 | **bifrost** | Bifrost LLM gateway (port 8080) |
-| **caddy** | Reverse proxy at `gateway.localhost` with auto-HTTPS |
 | **metrics-scraper** | Polls Bifrost logs → Supabase every 60s |
 
 ## Quick Start
@@ -23,13 +22,12 @@ Local Bifrost LLM gateway with Caddy HTTPS and Supabase metrics.
    ```
 
 3. Build and start the gateway stack:
-   ```sh
+   ```sh∂
    docker compose up -d --build
    ```
 
 4. Use the gateway:
-   - Direct: `http://localhost:8080`
-   - Via Caddy: `https://gateway.localhost` (auto-HTTPS, no `/etc/hosts` needed)
+   - Direct: `http://gateway.localhost`
 
 ## Local Development & Testing
 
