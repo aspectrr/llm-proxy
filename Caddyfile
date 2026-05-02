@@ -1,7 +1,0 @@
-{
-	auto_https off
-}
-
-gateway.localhost:80 {
-	reverse_proxy bifrost:8080
-}

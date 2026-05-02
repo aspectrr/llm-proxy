@@ -110,13 +110,13 @@
       "enabled": true,
       "name": "semantic_cache",
       "config": {
-        "provider": "ollama",
-        "embedding_model": "nomic-embed-text",
-        "dimension": 768,
+        "provider": "openrouter",
+        "embedding_model": "nvidia/llama-nemotron-embed-vl-1b-v2:free",
+        "dimension": 2048,
         "ttl": "5m",
         "threshold": 0.8,
         "cleanup_on_shutdown": true,
-        "conversation_history_threshold": 5,
+        "conversation_history_threshold": 3,
         "exclude_system_prompt": false,
         "cache_by_model": true,
         "cache_by_provider": true
