@@ -115,7 +115,6 @@
         "dimension": 2048,
         "ttl": "5m",
         "threshold": 0.8,
-        "cleanup_on_shutdown": true,
         "conversation_history_threshold": 3,
         "exclude_system_prompt": false,
         "cache_by_model": true,
