@@ -6,3 +6,7 @@ metrics-scraper/.venv
 .gitignore
 .pi-lens
 .pi
+
+# Pix Agent
+.pi/
+.pi-lens/
