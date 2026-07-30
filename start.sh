@@ -10,7 +10,9 @@ echo "Waiting for Redis to be ready..."
 MAX_RETRIES=30
 RETRY_COUNT=0
 while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-	if redis-cli ping >/dev/null 2>&1; then
+	# ponytail: ping returns PONG during RDB load, so use a real write —
+	# it only succeeds once Redis is fully ready (LOADING errors until then).
+	if redis-cli SET __ready_check 1 EX 5 >/dev/null 2>&1; then
 		echo "Redis is ready!"
 		break
 	fi
