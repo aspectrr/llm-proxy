@@ -93,15 +93,11 @@
       "enabled": true,
       "name": "semantic_cache",
       "config": {
-        "provider": "openrouter",
-        "embedding_model": "nvidia/llama-nemotron-embed-vl-1b-v2:free",
-        "dimension": 2048,
+        "dimension": 1,
         "ttl": "5m",
-        "threshold": 0.8,
-        "conversation_history_threshold": 3,
-        "exclude_system_prompt": false,
         "cache_by_model": true,
-        "cache_by_provider": true
+        "cache_by_provider": true,
+        "default_cache_key": "global"
       }
     }
   ]
