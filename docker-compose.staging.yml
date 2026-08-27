@@ -1,0 +1,30 @@
+# Staging twin of the production bifrost service.
+# Agents experiment here; production (port 80) keeps serving pi the whole time.
+#
+# Up:    docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build bifrost-staging
+# Test:  http://localhost:8081  (same auth as prod)
+# Down:  docker compose -f docker-compose.yml -f docker-compose.staging.yml down bifrost-staging
+#
+# Separate volumes (bifrost-staging-data) so staging never touches prod data.
+# restart: "no" — staging exists only while being used.
+services:
+  bifrost-staging:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bifrost-staging
+    restart: "no"
+    ports:
+      - "8081:8080"
+    volumes:
+      - bifrost-staging-data:/var/lib/bifrost
+      - redis-staging-data:/var/lib/redis
+    environment:
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - OLLAMA_URL=${OLLAMA_URL:-http://host.docker.internal:11434}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - GLM_API_KEY=${GLM_API_KEY:-}
+
+volumes:
+  bifrost-staging-data:
+  redis-staging-data:

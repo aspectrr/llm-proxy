@@ -1,5 +1,8 @@
 {
   "$schema": "https://www.getbifrost.ai/schema",
+  "client": {
+    "log_retention_days": 7
+  },
   "config_store": {
     "enabled": true,
     "type": "sqlite",
